@@ -13,7 +13,7 @@ const Register = (props) => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/admin/signup`,
+        "https://panicle-api.vercel.app/api/admin/signup",
         data
       );
       setMessage(response.data.message);
