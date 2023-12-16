@@ -1,0 +1,39 @@
+/* styles.css */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.header-dashboard {
+	display: flex;
+}
+
+.dashboard {
+	background: #f0efef;
+	width: 70vb;
+	flex: 1;
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+
+.component-container {
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	background-color: #ffffff;
+	padding: 25px;
+	margin-bottom: 20px;
+	height: 89vh;
+	width: 73.5vw;
+	align-self: center;
+}
+
+.component-heading {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+

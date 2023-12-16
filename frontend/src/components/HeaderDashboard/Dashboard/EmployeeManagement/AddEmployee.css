@@ -1,0 +1,59 @@
+.add-employee-container {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.296);
+  margin: 0% 15% 30% 20%;
+}
+
+.add-employee-container h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.add-employee-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.add-employee-input-field {
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.add-employee-add-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 10%;
+  margin: 0 auto;
+  box-shadow: 7px 7px 11px rgba(47, 56, 92, 0.2);
+}
+
+.add-employee-add-button:hover {
+  background-color: #6f89a5;
+}
+
+/* AddEmployee.css */
+.message {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.error {
+  background-color: #f44336;
+  color: white;
+}

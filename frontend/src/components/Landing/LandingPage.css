@@ -1,0 +1,195 @@
+.landing-container {
+  display: flex;
+  height: 100vh; /* Increase height by 20% */
+}
+
+.landing-firsthalf {
+  flex: 7.8; /* Increase flex by 20% */
+  padding: 24px; /* Increase padding by 20% */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-error {
+  font-size: 15px;
+  color: #f44336;
+}
+
+.heading {
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: 4.5rem;
+}
+
+@keyframes shrinkAnimation {
+  from {
+    flex: 10.8;
+    padding: 24px;
+    background-color: #77eed8;
+  }
+  to {
+    flex: 4.2;
+    padding: 30px; /* You can adjust the padding value as needed */
+    background-color: #9eabe4;
+  }
+}
+
+.landing-secondhalf {
+  flex: 4.2;
+  padding: 30px; /* Initial padding value */
+  background-color: #9eabe4;
+  background-image: linear-gradient(315deg, #9eabe4 0%, #77eed8 74%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: shrinkAnimation 0.5s ease forwards;
+}
+
+.landing-secondhalf p {
+  font-size: 1.56rem;
+  font-family: inherit;
+}
+.landing-secondhalf h3 {
+  font-size: 240%;
+  margin-bottom: -10px;
+  font-family: inherit;
+}
+
+.landing-tabs {
+  display: flex;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.landing-tabs label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.landing-tab-label {
+  display: inline-block;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 2rem; /* Increase font size by 20% */
+  font-weight: 200;
+}
+
+.landing-switch {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+  width: 60px;
+  height: 30px;
+}
+
+.landing-switch input {
+  display: none;
+}
+
+.landing-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #77eed8;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.landing-slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.landing-switch.admin .landing-slider {
+  background-color: #f44336;
+}
+
+.landing-switch.user .landing-slider:before {
+  transform: translateX(30px);
+}
+
+.landing-login-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  /* width: 100%; */
+  align-items: center;
+}
+
+.landing-name-field {
+  text-align: left;
+  font-size: 1.3rem;
+  margin-left: 2%;
+}
+.login-input-field {
+  padding: 18px;
+  width: 100%;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-right: 7px;
+  margin-top: 5.6%;
+  height: 14%;
+  font-size: 1rem;
+  margin-bottom: 6.4%;
+}
+.landing-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.sign-details {
+  font-weight: 100;
+  line-height: 1.4;
+  margin-top: -22px;
+}
+.landing-create-account-button {
+  padding: 11px 29px;
+  margin-top: 20px;
+  font-size: x-large;
+  border: none;
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.landing-create-account-button:hover {
+  background-color: rgb(30, 245, 155);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+button[type="submit"].landing-login-button {
+  margin-top: 18px;
+  font-size: x-large;
+  padding: 15px 36px;
+  border: none;
+  background-color: #77eed8;
+  color: #ffffff;
+  border-radius: 15px;
+  cursor: pointer;
+  width: fit-content;
+  margin-left: 30%;
+}
+
+button[type="submit"].landing-login-button:hover {
+  background-color: rgb(247, 175, 211);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
