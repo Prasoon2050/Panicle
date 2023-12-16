@@ -25,6 +25,8 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+app.options('/api/(.*)', cors());
+
 app.use("/api", apiRoutes);
 
 app.listen(PORT, () => {
