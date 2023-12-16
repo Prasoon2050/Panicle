@@ -76,16 +76,6 @@ const Register = (props) => {
               })}
             />
             <br />
-            <label>Shop Name</label>
-            <input
-              className="input-field"
-              type="text"
-              id="shopName"
-              placeholder="ShopName"
-              {...register("shopName", {
-                required: "Enter Shop Name",
-              })}
-            />
             <br />
             <div className="reg-button-container">
               <button type="submit" className="reg-create-account-button">

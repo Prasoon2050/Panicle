@@ -16,11 +16,19 @@ const employeeSchema = new Schema({
     type: String,
     required: true,
   },
-  phone: {
+  Position: {
     type: String,
     required: true,
   },
   salary: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: String,
+    required: true,
+  },
+  department: {
     type: String,
     required: true,
   },

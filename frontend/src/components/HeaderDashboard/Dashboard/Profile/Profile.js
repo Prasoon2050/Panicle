@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MdEmail } from "react-icons/md";
+import { Boxplot } from "react-chartjs-2";
+
+import Chart from "chart.js/auto";
 
 import "./Profile.css";
 import profileImage from "./profile.png";
@@ -8,24 +11,150 @@ import profileImage from "./profile.png";
 const Profile = () => {
   const token = localStorage.getItem("token");
   const [profileData, setProfileData] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for the modal
-  const [password, setPassword] = useState(""); // State for the entered password
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [ageDistribution, setAgeDistribution] = useState([]);
+  const [departmentCount, setDepartmentCount] = useState([]);
+  const [salaryDistribution, setSalaryDistribution] = useState([]);
 
   useEffect(() => {
     // Fetch user profile data from the server when the component mounts
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/Admin/profile`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include your authentication token here
+          Authorization: `Bearer ${token}`,
         },
-      }) // Update this endpoint to the appropriate route
+      })
       .then((response) => {
         setProfileData(response.data);
         console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching profile data:", error);
+      });
+
+    // Fetch additional data for charts
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/admin/employees/age-distribution`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setAgeDistribution(response.data);
+
+        // Chart.js - Age Distribution Chart
+        const ageDistributionChartCanvas = document.getElementById(
+          "ageDistributionChart"
+        );
+        new Chart(ageDistributionChartCanvas, {
+          type: "bar",
+          data: {
+            labels: response.data.map((item) => item._id),
+            datasets: [
+              {
+                label: "Employee Count",
+                data: response.data.map((item) => item.count),
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching age distribution:", error);
+      });
+
+    // Fetch department count data
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/admin/employees/department-count`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setDepartmentCount(response.data);
+
+        // Chart.js - Department Count Chart
+        const departmentCountChartCanvas = document.getElementById(
+          "departmentCountChart"
+        );
+        new Chart(departmentCountChartCanvas, {
+          type: "pie",
+          data: {
+            labels: response.data.map((item) => item._id),
+            datasets: [
+              {
+                data: response.data.map((item) => item.count),
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                  // Add more colors as needed
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  // Add more colors as needed
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching department count:", error);
+      });
+
+    // Fetch salary distribution data
+
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/admin/employees/salary-distribution`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setSalaryDistribution(response.data);
+
+        // Chart.js - Average Salary Distribution Chart
+        const salaryDistributionChartCanvas = document.getElementById(
+          "salaryDistributionChart"
+        );
+        new Chart(salaryDistributionChartCanvas, {
+          type: "bar", // You can choose a different chart type based on your preference
+          data: {
+            labels: response.data.map((item) => item._id),
+            datasets: [
+              {
+                label: "Average Salary",
+                data: response.data.map((item) =>
+                  item.averageSalary.toFixed(2)
+                ),
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching salary distribution:", error);
       });
   }, [token]);
 
@@ -42,27 +171,21 @@ const Profile = () => {
   };
 
   const handleConfirmCloseShop = () => {
-    // Perform password check and make the API call here
     axios
       .delete(`${process.env.REACT_APP_API_URL}/api/admin/delete`, {
         data: { password: password },
         headers: {
-          Authorization: `Bearer ${token}`, // Include your authentication token here
-        }, // Include email and password
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((response) => {
         localStorage.clear();
         window.location.href = "/";
-        // Handle success
-        console.log("Shop closed successfully");
-        // Close the modal
         handleCloseModal();
       })
       .catch((error) => {
-        // Handle errors, e.g., incorrect password
         console.error("Error closing shop:", error);
         setErrorMessage("Incorrect password. Please try again.");
-        // Optionally, you can display an error message to the user
       });
   };
 
@@ -70,6 +193,7 @@ const Profile = () => {
     <div className="component-container">
       <h1 className="profile-component-heading">Profile</h1>
       <div className="top-section">
+        {/* ... (your existing code) */}
         <div className="profile-section">
           <div className="profile-photo-container">
             <img src={profileImage} alt="Profile" className="profile-photo" />
@@ -85,30 +209,32 @@ const Profile = () => {
             Shop Name: {profileData.shopName}
           </p>
         </div>
-        <div className="sells-details">
-          <div className="grid-container">
-            <div className="sells-card">
-              <h3>Net Stock</h3>
-              <p className="sells">{profileData.netStock}</p>
-            </div>
-            <div className="sells-card">
-              <h3>Net Sales</h3>
-              <p className="sells">{profileData.netSales}</p>
-            </div>
-            <div className="sells-card">
-              <h3>Net Profit</h3>
-              <p className="sells">{profileData.profit}</p>
-            </div>
-            <div className="sells-card">
-              <h3>Total Employees</h3>
-              <p className="sells">{profileData.totalEmployees}</p>
-            </div>
+
+        {/* Charts */}
+        <div className="charts">
+          <div className="chart">
+            <h3>Age Distribution Chart</h3>
+            <canvas id="ageDistributionChart" width="400" height="200"></canvas>
+          </div>
+          <div className="chart">
+            <h3>Department Employee Count Chart</h3>
+            <canvas id="departmentCountChart" width="400" height="200"></canvas>
+          </div>
+          <div className="chart">
+            <h3>Salary Range Distribution Chart</h3>
+            <canvas
+              id="salaryDistributionChart"
+              width="400"
+              height="200"
+            ></canvas>
           </div>
         </div>
       </div>
+
       <div className="close-shop" onClick={handleOpenModal}>
         Close Shop
       </div>
+
       {/* Modal for entering password */}
       {isModalOpen && (
         <div className="modal-overlay">

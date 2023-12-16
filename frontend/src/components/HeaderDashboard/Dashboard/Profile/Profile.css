@@ -7,6 +7,8 @@
   height: 89vh;
   width: 73.5vw;
   align-self: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-component-heading {
@@ -22,25 +24,30 @@
   width: 99%;
 }
 
-.profile-photo-container {
-  width: 35%; /* Set the width and height of the container */
-  height: 40%;
-  border: 5px solid #009879; /* Add a border color (adjust as needed) */
-  border-radius: 50%; /* Make the container circular */
-  display: flex;
-  justify-content: center;
-  border-left-color: #aefdfe;
-  align-items: center;
-  margin-right: 20px;
-  margin-bottom: 5px;
-  margin-top: 4%;
-  transition: transform 0.3s;
-}
-
 .top-section {
   display: flex;
   height: 80%;
   margin-left: 20px;
+}
+
+.sells-details {
+  flex: 2 1;
+  justify-content: center;
+  padding: 20px;
+}
+
+.charts {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart {
+  flex: 1;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #aefdfe;
+  box-shadow: 2px 2px 6px #888888;
+  margin: 21px 0px 21px 0px;
 }
 
 .close-shop {
@@ -63,89 +70,22 @@
   background-color: #ff0000;
   box-shadow: none;
 }
+
 .profile-section {
   flex: 2 1;
   padding: 20px;
   border-radius: 5px;
-  display: flex; /* Add this to enable flexbox for centering */
-  flex-direction: column; /* Add this to stack elements vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #aefdfe;
   box-shadow: 2px 2px 6px #888888;
   margin: 21px 0px 21px 0px;
 }
+
 .profile-section:hover {
   background-color: #73faeacb;
-}
-
-.profile-photo {
-  width: 95%;
-  height: 100%;
-  border-radius: 50%;
-}
-
-p {
-  display: flex;
-  justify-content: center;
-}
-
-.mail-icon {
-  /* padding-top: auto; */
-  /* padding-bottom: 0; */
-  padding-right: 10px;
-}
-.profileData-username {
-  width: 60%;
-  font-size: 150%;
-  font-weight: bold;
-  margin-bottom: 5px;
-  font-family: "Roboto", sans-serif;
-  padding-top: 5px;
-}
-
-.profileData-email {
-  font-size: 100%;
-  /* margin: 2px; */
-  padding: 20px;
-  margin-top: 20px;
-  border: 3px solid #009879;
-  width: 60%;
-  border-radius: 10px;
-}
-
-.profileData-shopName {
-  width: 60%;
-  padding: 20px;
-  margin-top: 20px;
-  font-size: 100%;
-  border: 3px solid #009879;
-  border-radius: 10px;
-}
-
-.sells-details {
-  flex: 2 1;
-  justify-content: center;
-  padding: 20px;
-}
-.sells {
-  margin-top: 10%;
-}
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 5%;
-  width: 100%;
-  /* font-size: 25px; */
-}
-
-.grid-container p {
-  padding-top: 25%;
-  font-size: 100%;
-}
-
-.grid-container h3 {
-  font-size: 100%;
 }
 
 .sells-card {
@@ -180,15 +120,10 @@ p {
   background-color: #01fcdfcb(119, 245, 199, 0.355);
   color: #ffffff;
 }
-.sales-graph {
-  justify-items: center;
-}
 
-.bottom-section {
-  justify-content: center;
-  padding: 20px;
-  height: 40vh;
-  align-items: center;
+.charts canvas {
+  width: 100%;
+  height: 100%;
 }
 
 .modal-overlay {
@@ -197,12 +132,12 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it's on top of everything */
-  backdrop-filter: blur(5px); /* Apply a blur effect to the background */
+  z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
 .modal {
@@ -210,11 +145,11 @@ p {
   padding: 30px;
   text-align: center;
   position: relative;
-  z-index: 1001; /* Place it above the overlay */
+  z-index: 1001;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  width: 80%; /* Set the width to 80% of the parent container */
-  max-width: 500px; /* Set a maximum width to prevent it from becoming too wide */
+  width: 80%;
+  max-width: 500px;
 }
 
 .close {
@@ -225,7 +160,6 @@ p {
   font-size: 20px;
 }
 
-/* Style the input and button */
 .password1 {
   padding: 15px;
   margin: 15px 0;
@@ -253,6 +187,7 @@ button:hover {
 .shopclosure {
   margin-bottom: 4%;
 }
+
 .error-message {
   color: red;
 }

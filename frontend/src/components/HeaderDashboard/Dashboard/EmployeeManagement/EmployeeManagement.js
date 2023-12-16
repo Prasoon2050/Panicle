@@ -4,7 +4,6 @@ import AddEmployee from "./AddEmployee";
 import DeleteConfirmation from "./DeleteConfirmation/DeleteConfirmation";
 import SaveConfirmation from "./SaveConfirmation/SaveConfirmation";
 import "./EmployeeManagement.css";
-import { HiDocumentSearch } from "react-icons/hi";
 
 const EmployeeManagement = () => {
   const [activeTab, setActiveTab] = useState("view");
@@ -13,7 +12,9 @@ const EmployeeManagement = () => {
   const [editedEmployee, setEditedEmployee] = useState({
     username: "",
     email: "",
-    phone: "",
+    Position: "",
+    age: "",
+    department: "",
     salary: "",
   });
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
@@ -49,7 +50,9 @@ const EmployeeManagement = () => {
     setEditedEmployee({
       username: "",
       email: "",
-      phone: "",
+      Position: "",
+      age: "",
+      department: "",
       salary: "",
     });
   };
@@ -95,7 +98,9 @@ const EmployeeManagement = () => {
     const updatedEmployee = {
       username: editedEmployee.username,
       email: editedEmployee.email,
-      phone: editedEmployee.phone,
+      Position: editedEmployee.Position,
+      age: editedEmployee.age,
+      department: editedEmployee.department,
       salary: editedEmployee.salary,
     };
     console.log(updatedEmployee);
@@ -121,7 +126,9 @@ const EmployeeManagement = () => {
         setEditedEmployee({
           username: "",
           email: "",
-          phone: "",
+          Position: "",
+          age: "",
+          department: "",
           salary: "",
         });
         setShowSaveConfirmation(false);
@@ -153,6 +160,7 @@ const EmployeeManagement = () => {
         },
       })
       .then((response) => {
+        console.log(response.data);
         setEmployeeData(response.data);
       })
       .catch((error) => {
@@ -204,7 +212,9 @@ const EmployeeManagement = () => {
                 <tr>
                   <th className="employee-table-header">Name</th>
                   <th className="employee-table-header">Email</th>
-                  <th className="employee-table-header">Phone</th>
+                  <th className="employee-table-header">Position</th>
+                  <th className="employee-table-header">Age</th>
+                  <th className="employee-table-header">Department</th>
                   <th className="employee-table-header">Salary</th>
                   <th className="employee-table-header">Actions</th>
                 </tr>
@@ -251,16 +261,50 @@ const EmployeeManagement = () => {
                         <input
                           className="employee-edit-field"
                           type="text"
-                          value={editedEmployee.phone}
+                          value={editedEmployee.Position}
                           onChange={(e) =>
                             setEditedEmployee({
                               ...editedEmployee,
-                              phone: e.target.value,
+                              Position: e.target.value,
                             })
                           }
                         />
                       ) : (
-                        employee.phone
+                        employee.Position
+                      )}
+                    </td>
+                    <td>
+                      {employee.email === editEmployeeemail ? (
+                        <input
+                          className="employee-edit-field"
+                          type="text"
+                          value={editedEmployee.age}
+                          onChange={(e) =>
+                            setEditedEmployee({
+                              ...editedEmployee,
+                              age: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        employee.age
+                      )}
+                    </td>
+                    <td>
+                      {employee.email === editEmployeeemail ? (
+                        <input
+                          className="employee-edit-field"
+                          type="text"
+                          value={editedEmployee.department}
+                          onChange={(e) =>
+                            setEditedEmployee({
+                              ...editedEmployee,
+                              department: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        employee.department
                       )}
                     </td>
                     <td>

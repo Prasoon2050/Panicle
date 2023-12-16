@@ -8,8 +8,10 @@ const AddEmployee = ({ onAddEmployeeSuccess }) => {
     username: "",
     email: "",
     password: "",
-    phone: "",
+    Position: "",
     salary: "",
+    age: "",
+    department: "",
   };
 
   const [employeeData, setEmployeeData] = useState(initialState);
@@ -28,8 +30,10 @@ const AddEmployee = ({ onAddEmployeeSuccess }) => {
       username: formData.get("username"),
       email: formData.get("email"),
       password: formData.get("password"),
-      phone: formData.get("phone"),
+      Position: formData.get("Position"),
       salary: formData.get("salary"),
+      age: formData.get("age"),
+      department: formData.get("department"),
     };
 
     try {
@@ -102,10 +106,10 @@ const AddEmployee = ({ onAddEmployeeSuccess }) => {
         />
         <input
           type="text"
-          name="phone"
-          placeholder="Phone"
+          name="Position"
+          placeholder="Position"
           className="add-employee-input-field"
-          value={employeeData.phone}
+          value={employeeData.Position}
           onChange={inputChangeHandler}
         />
         <input
@@ -114,6 +118,22 @@ const AddEmployee = ({ onAddEmployeeSuccess }) => {
           placeholder="Salary"
           className="add-employee-input-field"
           value={employeeData.salary}
+          onChange={inputChangeHandler}
+        />
+        <input
+          type="text"
+          name="age"
+          placeholder="Age"
+          className="add-employee-input-field"
+          value={employeeData.age}
+          onChange={inputChangeHandler}
+        />
+        <input
+          type="text"
+          name="department"
+          placeholder="Department"
+          className="add-employee-input-field"
+          value={employeeData.deaprtment}
           onChange={inputChangeHandler}
         />
         <button type="submit" className="add-employee-add-button">

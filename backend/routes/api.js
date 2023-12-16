@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const generateUniqueId = require("generate-unique-id");
 
 const Admin = require("../models/Admin");
 const Employee = require("../models/Employee");
@@ -43,7 +42,6 @@ router.post("/admin/signup", async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      shopName,
     });
     await newAdmin.save();
 
@@ -57,7 +55,8 @@ router.post("/admin/signup", async (req, res) => {
 // Define the '/admin/employee' route for admin to create an employee
 router.post("/admin/employee", verifyToken, async (req, res) => {
   try {
-    const { username, email, password, phone, salary } = req.body;
+    const { username, email, password, Position, salary, age, department } =
+      req.body;
 
     const userId = req.user.email;
     const admin = await Admin.findOne({ email: userId });
@@ -78,8 +77,10 @@ router.post("/admin/employee", verifyToken, async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      phone,
+      Position,
       salary,
+      age,
+      department,
       admin: userId, // Link to the admin who is creating the employee
     });
     await newEmployee.save();
@@ -243,6 +244,80 @@ router.delete(
       res.status(200).json({ message: "Employee deleted successfully" });
     } catch (error) {
       console.error("Employee Deletion error:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+);
+
+router.get(
+  "/admin/employees/age-distribution",
+  verifyToken,
+  async (req, res) => {
+    try {
+      const userId = req.user.email;
+      const ageDistribution = await Employee.aggregate([
+        { $match: { admin: userId } },
+        {
+          $group: {
+            _id: "$age",
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      res.status(200).json(ageDistribution);
+    } catch (error) {
+      console.error("Error fetching age distribution:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+);
+
+// Department employee count (pie chart or bar chart)
+router.get(
+  "/admin/employees/department-count",
+  verifyToken,
+  async (req, res) => {
+    try {
+      const userId = req.user.email;
+      const departmentCount = await Employee.aggregate([
+        { $match: { admin: userId } },
+        {
+          $group: {
+            _id: "$department",
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      res.status(200).json(departmentCount);
+    } catch (error) {
+      console.error("Error fetching department count:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+);
+
+// Average salary distribution by department
+router.get(
+  "/admin/employees/salary-distribution",
+  verifyToken,
+  async (req, res) => {
+    try {
+      const userId = req.user.email;
+      const salaryDistribution = await Employee.aggregate([
+        { $match: { admin: userId } },
+        {
+          $group: {
+            _id: "$department",
+            averageSalary: { $avg: { $toDouble: "$salary" } },
+          },
+        },
+      ]);
+
+      res.status(200).json(salaryDistribution);
+    } catch (error) {
+      console.error("Error fetching salary distribution:", error);
       res.status(500).json({ message: "Server error" });
     }
   }
