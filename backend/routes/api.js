@@ -28,7 +28,7 @@ const verifyToken = (req, res, next) => {
 // Define the '/admin/signup' route for admin registration
 router.post("/admin/signup", async (req, res) => {
   try {
-    const { email, password, shopName, username } = req.body;
+    const { email, password, username } = req.body;
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res
