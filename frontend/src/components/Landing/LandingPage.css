@@ -1,11 +1,11 @@
 .landing-container {
   display: flex;
-  height: 100vh; /* Increase height by 20% */
+  height: 100vh;
 }
 
 .landing-firsthalf {
-  flex: 7.8; /* Increase flex by 20% */
-  padding: 24px; /* Increase padding by 20% */
+  flex: 7.8;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;

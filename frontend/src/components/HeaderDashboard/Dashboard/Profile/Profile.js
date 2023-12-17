@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { MdEmail } from "react-icons/md";
-import { Boxplot } from "react-chartjs-2";
+import { MdEmail, MdPeople, MdAccountCircle } from "react-icons/md";
 
 import Chart from "chart.js/auto";
 
@@ -16,7 +15,6 @@ const Profile = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [ageDistribution, setAgeDistribution] = useState([]);
   const [departmentCount, setDepartmentCount] = useState([]);
-  const [salaryDistribution, setSalaryDistribution] = useState([]);
 
   useEffect(() => {
     // Fetch user profile data from the server when the component mounts
@@ -35,6 +33,7 @@ const Profile = () => {
       });
 
     // Fetch additional data for charts
+    // Fetch additional data for charts
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/api/admin/employees/age-distribution`,
@@ -47,7 +46,6 @@ const Profile = () => {
       .then((response) => {
         setAgeDistribution(response.data);
 
-        // Chart.js - Age Distribution Chart
         const ageDistributionChartCanvas = document.getElementById(
           "ageDistributionChart"
         );
@@ -64,6 +62,22 @@ const Profile = () => {
                 borderWidth: 1,
               },
             ],
+          },
+          options: {
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Age Range",
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Number of Employees",
+                },
+              },
+            },
           },
         });
       })
@@ -116,46 +130,6 @@ const Profile = () => {
       .catch((error) => {
         console.error("Error fetching department count:", error);
       });
-
-    // Fetch salary distribution data
-
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/api/admin/employees/salary-distribution`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        setSalaryDistribution(response.data);
-
-        // Chart.js - Average Salary Distribution Chart
-        const salaryDistributionChartCanvas = document.getElementById(
-          "salaryDistributionChart"
-        );
-        new Chart(salaryDistributionChartCanvas, {
-          type: "bar", // You can choose a different chart type based on your preference
-          data: {
-            labels: response.data.map((item) => item._id),
-            datasets: [
-              {
-                label: "Average Salary",
-                data: response.data.map((item) =>
-                  item.averageSalary.toFixed(2)
-                ),
-                backgroundColor: "rgba(255, 99, 132, 0.2)",
-                borderColor: "rgba(255, 99, 132, 1)",
-                borderWidth: 1,
-              },
-            ],
-          },
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching salary distribution:", error);
-      });
   }, [token]);
 
   const handleOpenModal = () => {
@@ -193,58 +167,58 @@ const Profile = () => {
     <div className="component-container">
       <h1 className="profile-component-heading">Profile</h1>
       <div className="top-section">
-        {/* ... (your existing code) */}
         <div className="profile-section">
           <div className="profile-photo-container">
             <img src={profileImage} alt="Profile" className="profile-photo" />
           </div>
-          <p className="profileData-username">{profileData.username}</p>
+          <p className="profileData-username">
+            <span className="username-icon">
+              <MdAccountCircle />
+            </span>
+            <p className="headings">Username : </p>
+            {profileData.username}
+          </p>
           <p className="profileData-email">
             <span className="mail-icon">
               <MdEmail />
             </span>
+            <p className="headings">Email : </p>
             {profileData.email}
           </p>
-          <p className="profileData-shopName">
-            Shop Name: {profileData.shopName}
+          <p className="profileData-totalEmployees">
+            <span className="totalEmployees-icon">
+              <MdPeople />
+            </span>
+            <p className="headings">Employee Count : </p>
+            {profileData.totalEmployees}
           </p>
         </div>
 
-        {/* Charts */}
         <div className="charts">
           <div className="chart">
-            <h3>Age Distribution Chart</h3>
-            <canvas id="ageDistributionChart" width="400" height="200"></canvas>
+            <h3 className="chart-heading">Age Distribution</h3>
+            <canvas id="ageDistributionChart"></canvas>
           </div>
           <div className="chart">
-            <h3>Department Employee Count Chart</h3>
-            <canvas id="departmentCountChart" width="400" height="200"></canvas>
-          </div>
-          <div className="chart">
-            <h3>Salary Range Distribution Chart</h3>
-            <canvas
-              id="salaryDistributionChart"
-              width="400"
-              height="200"
-            ></canvas>
+            <h3 className="chart-heading">Department Employee Count</h3>
+            <canvas id="departmentCountChart"></canvas>
           </div>
         </div>
       </div>
 
       <div className="close-shop" onClick={handleOpenModal}>
-        Close Shop
+        Close Admin
       </div>
 
-      {/* Modal for entering password */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal">
             <span className="close" onClick={handleCloseModal}>
               &times;
             </span>
-            <h2 className="shopclosure">Confirm Shop Closure</h2>
+            <h2 className="shopclosure">Confirm Admin Closure</h2>
             <p className="shopclosure">
-              Enter your password to close the shop:
+              Enter your password to close the Admin:
             </p>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <input

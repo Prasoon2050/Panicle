@@ -69,15 +69,14 @@
 }
 
 .input-field {
-  padding: 7px;
+  padding: 18px;
   width: 100%;
-  border: 1px solid #000000;
-  border-radius: 10px;
-  margin-right: -5px;
-  margin-top: 3.6%;
-  height: 10%;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-right: 7px;
+  margin-top: 5.6%;
   font-size: 1rem;
-  margin-bottom: 5.4%;
+  margin-bottom: 6.4%;
 }
 
 .reg-button-container {

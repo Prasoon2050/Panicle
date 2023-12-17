@@ -4,6 +4,7 @@ import AddEmployee from "./AddEmployee";
 import DeleteConfirmation from "./DeleteConfirmation/DeleteConfirmation";
 import SaveConfirmation from "./SaveConfirmation/SaveConfirmation";
 import "./EmployeeManagement.css";
+import { HiSortAscending } from "react-icons/hi";
 
 const EmployeeManagement = () => {
   const [activeTab, setActiveTab] = useState("view");
@@ -21,18 +22,57 @@ const EmployeeManagement = () => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortColumn, setSortColumn] = useState("username");
 
   const token = localStorage.getItem("token");
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
+  const toggleSortOrder = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
+
+  const handleSort = (column) => {
+    if (column === sortColumn) {
+      toggleSortOrder();
+    } else {
+      setSortColumn(column);
+      setSortOrder("asc");
+    }
+  };
+
+  const performSorting = (data) => {
+    return data.slice().sort((a, b) => {
+      const columnA = a[sortColumn].toLowerCase();
+      const columnB = b[sortColumn].toLowerCase();
+      if (columnA < columnB) {
+        return sortOrder === "asc" ? -1 : 1;
+      }
+      if (columnA > columnB) {
+        return sortOrder === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+  };
+
   const filterEmployeeData = () => {
-    return employeeData.filter(
-      (employee) =>
-        employee.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        employee.email.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return employeeData.filter((employee) => {
+      const lowerCaseSearchQuery = searchQuery.toLowerCase();
+      const usernameMatches = employee.username
+        .toLowerCase()
+        .includes(lowerCaseSearchQuery);
+      const emailMatches = employee.email
+        .toLowerCase()
+        .includes(lowerCaseSearchQuery);
+      const positionMatches =
+        employee.Position.toLowerCase().includes(lowerCaseSearchQuery);
+      const departmentMatches = employee.department
+        .toLowerCase()
+        .includes(lowerCaseSearchQuery);
+
+      return (
+        usernameMatches || emailMatches || positionMatches || departmentMatches
+      );
+    });
   };
 
   const handleEdit = (email) => {
@@ -61,6 +101,7 @@ const EmployeeManagement = () => {
     setShowDeleteConfirmation(true);
     setItemToDelete(email);
   };
+
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
     setItemToDelete(null);
@@ -91,7 +132,7 @@ const EmployeeManagement = () => {
 
   const handleSaveConfirmation = (email) => {
     setShowSaveConfirmation(true);
-    setEditEmployeeemail(email); // Set the email of the employee being edited for saving
+    setEditEmployeeemail(email);
   };
 
   const handleConfirmSave = () => {
@@ -103,7 +144,7 @@ const EmployeeManagement = () => {
       department: editedEmployee.department,
       salary: editedEmployee.salary,
     };
-    console.log(updatedEmployee);
+
     axios
       .put(
         `${process.env.REACT_APP_API_URL}/api/admin/employees/${editEmployeeemail}`,
@@ -137,6 +178,7 @@ const EmployeeManagement = () => {
         console.error("Error updating employee data:", error);
       });
   };
+
   const fetchEmployeeData = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/admin/employees/names`, {
@@ -153,19 +195,7 @@ const EmployeeManagement = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/admin/employees/names`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setEmployeeData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching employee data:", error);
-      });
+    fetchEmployeeData();
   }, [token]);
 
   return (
@@ -174,7 +204,7 @@ const EmployeeManagement = () => {
 
       <div className="employee-button-container">
         <button
-          onClick={() => handleTabChange("view")}
+          onClick={() => setActiveTab("view")}
           className={`employee-tab-button ${
             activeTab === "view" ? "active" : ""
           }`}
@@ -182,7 +212,7 @@ const EmployeeManagement = () => {
           View Employees
         </button>
         <button
-          onClick={() => handleTabChange("add")}
+          onClick={() => setActiveTab("add")}
           className={`employee-tab-button ${
             activeTab === "add" ? "active" : ""
           }`}
@@ -197,30 +227,73 @@ const EmployeeManagement = () => {
       )}
       {activeTab === "view" && (
         <div>
-          <div class="search-bar">
-            <i class="icon">🔍</i>
+          <div className="search-bar">
+            <i className="icon">🔍</i>
             <input
               type="text"
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              title="Search for any field of data."
             />
           </div>
           <div className="employee-table-container">
             <table className="employee-table">
               <thead>
                 <tr>
-                  <th className="employee-table-header">Name</th>
-                  <th className="employee-table-header">Email</th>
-                  <th className="employee-table-header">Position</th>
-                  <th className="employee-table-header">Age</th>
-                  <th className="employee-table-header">Department</th>
-                  <th className="employee-table-header">Salary</th>
+                  <th
+                    className="employee-table-header"
+                    onClick={() => handleSort("username")}
+                    style={{ cursor: "pointer" }}
+                    title="Click here to sort in ascending or descending order"
+                  >
+                    Name <HiSortAscending />
+                  </th>
+                  <th
+                    className="employee-table-header"
+                    onClick={() => handleSort("email")}
+                    style={{ cursor: "pointer" }}
+                    title="Click here to sort in ascending or descending order"
+                  >
+                    Email <HiSortAscending />
+                  </th>
+                  <th
+                    className="employee-table-header"
+                    onClick={() => handleSort("Position")}
+                    style={{ cursor: "pointer" }}
+                    title="Click here to sort in ascending or descending order"
+                  >
+                    Position <HiSortAscending />
+                  </th>
+                  <th
+                    className="employee-table-header"
+                    onClick={() => handleSort("age")}
+                    style={{ cursor: "pointer" }}
+                    title="Click here to sort in ascending or descending order"
+                  >
+                    Age <HiSortAscending />
+                  </th>
+                  <th
+                    className="employee-table-header"
+                    onClick={() => handleSort("department")}
+                    style={{ cursor: "pointer" }}
+                    title="Click here to sort in ascending or descending order"
+                  >
+                    Department <HiSortAscending />
+                  </th>
+                  <th
+                    className="employee-table-header"
+                    onClick={() => handleSort("salary")}
+                    style={{ cursor: "pointer" }}
+                    title="Click here to sort in ascending or descending order"
+                  >
+                    Salary <HiSortAscending />
+                  </th>
                   <th className="employee-table-header">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filterEmployeeData().map((employee) => (
+                {performSorting(filterEmployeeData()).map((employee) => (
                   <tr key={employee.email}>
                     <td>
                       {employee.email === editEmployeeemail ? (

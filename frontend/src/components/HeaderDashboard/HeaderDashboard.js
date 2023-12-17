@@ -10,14 +10,13 @@ import axios from "axios";
 
 function HeaderDashboard() {
   const [userData, setUserData] = useState(null);
-  const [selectedComponent, setSelectedComponent] = useState("billing");
+  const [selectedComponent, setSelectedComponent] = useState("profile");
 
   const token = localStorage.getItem("token");
   useEffect(() => {
     if (token) {
       const decoded = jwt_decode(token);
       const role = decoded.role;
-      // console.log(role);
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/api/${role}/profile`, {

@@ -54,7 +54,7 @@ h3 {
   margin-top: 1.2%;
   display: inline-flex;
   align-items: center;
-  margin-bottom: 5%;
+  margin-bottom: 2%;
   background: #009879; /* Updated color */
   padding: 10px 20px;
   border-radius: 5px;
@@ -66,7 +66,6 @@ h3 {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-  margin-top: 1%;
   margin-left: 10%;
   gap: 5%;
   margin-right: 10%;
@@ -84,6 +83,11 @@ h3 {
 
 .employee-tab-button.active {
   background-color: #37b5a3;
+  color: #fff;
+}
+
+.employee-tab-button:hover {
+  background-color: #0d6f60;
   color: #fff;
 }
 
@@ -117,6 +121,7 @@ h3 {
   padding: 12px 15px;
   border: 1px solid #ccc;
   text-align: left;
+  overflow-wrap: break-word;
 }
 
 .employee-table tbody tr {
@@ -134,7 +139,7 @@ h3 {
   font-size: 14px;
   display: inline-block;
   width: 70px;
-  margin-left: 5px;
+  margin: 5%;
   text-align: center;
 }
 
@@ -169,6 +174,7 @@ h3 {
 }
 
 .employee-edit-field {
+  width: 90%;
   margin: 8px 0;
   padding: 6px;
   border: 1px solid #a88989;

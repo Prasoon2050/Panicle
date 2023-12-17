@@ -298,31 +298,6 @@ router.get(
   }
 );
 
-// Average salary distribution by department
-// router.get(
-//   "/admin/employees/salary-distribution",
-//   verifyToken,
-//   async (req, res) => {
-//     try {
-//       const userId = req.user.email;
-//       const salaryDistribution = await Employee.aggregate([
-//         { $match: { admin: userId } },
-//         {
-//           $group: {
-//             _id: "$department",
-//             averageSalary: { $avg: { $toDouble: "$salary" } },
-//           },
-//         },
-//       ]);
-
-//       res.status(200).json(salaryDistribution);
-//     } catch (error) {
-//       console.error("Error fetching salary distribution:", error);
-//       res.status(500).json({ message: "Server error" });
-//     }
-//   }
-// );
-
 router.delete("/admin/delete", verifyToken, async (req, res) => {
   try {
     const { password } = req.body;
