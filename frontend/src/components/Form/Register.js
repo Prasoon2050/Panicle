@@ -13,7 +13,7 @@ const Register = (props) => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "https://panicle-api.onrender.com/api/admin/signup",
+        `${process.env.REACT_APP_API_URL}/api/admin/signup`,
         data
       );
       setMessage(response.data.message);
