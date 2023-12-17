@@ -9,6 +9,7 @@ const Register = (props) => {
 
   const [userInfo, setUserInfo] = useState();
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -44,7 +45,14 @@ const Register = (props) => {
         <h1 className="heading">Create Free Account</h1>
         <div className="reg-signup-form">
           {message && <div className="success-message">{message}</div>}
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setLoading(true);
+              await handleSubmit(onSubmit)();
+              setLoading(false);
+            }}
+          >
             <label>Username</label>
             <input
               className="input-field"
@@ -79,7 +87,7 @@ const Register = (props) => {
             <br />
             <div className="reg-button-container">
               <button type="submit" className="reg-create-account-button">
-                Sign Up
+                {loading ? "Signing You In.." : "Sign Up"}
               </button>
             </div>
           </form>

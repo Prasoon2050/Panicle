@@ -7,6 +7,7 @@ function LandingPage() {
   const [activeTab, setActiveTab] = useState("loginAdmin");
   const [loginError, setLoginError] = useState(null);
 
+  const [loading, setLoading] = useState(false);
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -81,7 +82,14 @@ function LandingPage() {
           <div className="landing-tab-label">User</div>
         </div>
         <div className="landing-login-form">
-          <form onSubmit={handleLogin}>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setLoading(true);
+              await handleLogin(e);
+              setLoading(false);
+            }}
+          >
             <label className="landing-name-field">Email</label>
             <input
               type="text"
@@ -100,7 +108,7 @@ function LandingPage() {
             <br />
             {loginError && <p className="landing-error">{loginError}</p>}
             <button type="submit" className="landing-login-button">
-              Login!
+              {loading ? "Signing You In..." : "Login!"}
             </button>
           </form>
         </div>
