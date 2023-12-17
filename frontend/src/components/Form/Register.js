@@ -13,7 +13,7 @@ const Register = (props) => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "https://panicle-api.vercel.app/api/admin/signup",
+        "https://shopsense-api.vercel.app/api/admin1/signup",
         data
       );
       setMessage(response.data.message);
