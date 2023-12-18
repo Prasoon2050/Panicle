@@ -26,7 +26,6 @@ const Profile = () => {
       })
       .then((response) => {
         setProfileData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching profile data:", error);
@@ -197,11 +196,19 @@ const Profile = () => {
         <div className="charts">
           <div className="chart">
             <h3 className="chart-heading">Age Distribution</h3>
-            <canvas id="ageDistributionChart"></canvas>
+            {ageDistribution.length > 0 ? (
+              <canvas id="ageDistributionChart"></canvas>
+            ) : (
+              <p>No data found for Age Distribution</p>
+            )}
           </div>
           <div className="chart">
             <h3 className="chart-heading">Department Employee Count</h3>
-            <canvas id="departmentCountChart"></canvas>
+            {departmentCount.length > 0 ? (
+              <canvas id="departmentCountChart"></canvas>
+            ) : (
+              <p>No data found for Department Employee Count</p>
+            )}
           </div>
         </div>
       </div>

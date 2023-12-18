@@ -307,6 +307,7 @@ const EmployeeManagement = () => {
                               username: e.target.value,
                             })
                           }
+                          required
                         />
                       ) : (
                         employee.username
@@ -316,7 +317,7 @@ const EmployeeManagement = () => {
                       {employee.email === editEmployeeemail ? (
                         <input
                           className="employee-edit-field"
-                          type="text"
+                          type="email"
                           value={editedEmployee.email}
                           onChange={(e) =>
                             setEditedEmployee({
@@ -324,6 +325,7 @@ const EmployeeManagement = () => {
                               email: e.target.value,
                             })
                           }
+                          required
                         />
                       ) : (
                         employee.email
@@ -341,6 +343,7 @@ const EmployeeManagement = () => {
                               Position: e.target.value,
                             })
                           }
+                          required
                         />
                       ) : (
                         employee.Position
@@ -350,7 +353,7 @@ const EmployeeManagement = () => {
                       {employee.email === editEmployeeemail ? (
                         <input
                           className="employee-edit-field"
-                          type="text"
+                          type="number"
                           value={editedEmployee.age}
                           onChange={(e) =>
                             setEditedEmployee({
@@ -358,6 +361,7 @@ const EmployeeManagement = () => {
                               age: e.target.value,
                             })
                           }
+                          required
                         />
                       ) : (
                         employee.age
@@ -375,6 +379,7 @@ const EmployeeManagement = () => {
                               department: e.target.value,
                             })
                           }
+                          required
                         />
                       ) : (
                         employee.department
@@ -384,7 +389,7 @@ const EmployeeManagement = () => {
                       {employee.email === editEmployeeemail ? (
                         <input
                           className="employee-edit-field"
-                          type="text"
+                          type="number"
                           value={editedEmployee.salary}
                           onChange={(e) =>
                             setEditedEmployee({
@@ -392,6 +397,7 @@ const EmployeeManagement = () => {
                               salary: e.target.value,
                             })
                           }
+                          required
                         />
                       ) : (
                         employee.salary

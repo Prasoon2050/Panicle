@@ -92,10 +92,11 @@ function LandingPage() {
           >
             <label className="landing-name-field">Email</label>
             <input
-              type="text"
+              type="email"
               name="email"
               placeholder="Enter Email"
               className="login-input-field"
+              required
             />
             <br />
             <label className="landing-name-field">Password</label>
@@ -104,11 +105,12 @@ function LandingPage() {
               name="password"
               placeholder="Enter Password"
               className="login-input-field"
+              required
             />
             <br />
             {loginError && <p className="landing-error">{loginError}</p>}
             <button type="submit" className="landing-login-button">
-              {loading ? "Signing You In..." : "Login!"}
+              {loading ? "Signing you." : "Login!"}
             </button>
           </form>
         </div>
