@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const Admin = require("../models/Admin");
 const Employee = require("../models/Employee");
+const Note = require("../models/Note");
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -322,6 +323,77 @@ router.delete("/admin/delete", verifyToken, async (req, res) => {
     console.error("Admin data deletion error:", error);
     res.status(500).json({ message: "Server error" });
   }
+});
+
+//Note app
+
+// Create Note
+router.post("/note", async (req, res) => {
+  const { title, content, userEmail } = req.body;
+  if (!title || !content || !userEmail) {
+    return res
+      .status(400)
+      .json({ message: "Title, content, and user email are required" });
+  }
+  const newNote = new Note({
+    title,
+    content,
+    userEmail,
+  });
+  await newNote.save();
+  res.status(201).json({ message: "Note created successfully" });
+});
+
+// Retrieve Notes for a specific user
+router.get("/notes/:userEmail", async (req, res) => {
+  const { userEmail } = req.params;
+  const notes = await Note.find({ userEmail: userEmail });
+  if (!notes) {
+    return res.status(404).json({ message: "No notes found for this user" });
+  }
+  res.status(200).json(notes);
+});
+
+// Retrieve a single note by its ID
+router.get("/note/:id", async (req, res) => {
+  const { id } = req.params;
+  const note = await Note.findById(id);
+  if (!note) {
+    return res.status(404).json({ message: "Note not found" });
+  }
+  res.status(200).json(note);
+});
+
+// Update Note
+router.put("/note/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, content, userEmail } = req.body;
+  if (!title || !content || !userEmail) {
+    return res
+      .status(400)
+      .json({ message: "Title, content, and user email are required" });
+  }
+  const updatedNote = await Note.findByIdAndUpdate(
+    id,
+    { title, content, userEmail },
+    { new: true }
+  );
+  if (!updatedNote) {
+    return res.status(404).json({ message: "Note not found" });
+  }
+  res
+    .status(200)
+    .json({ message: "Note updated successfully", note: updatedNote });
+});
+
+// Delete Note
+router.delete("/note/:id", async (req, res) => {
+  const { id } = req.params;
+  const deletedNote = await Note.findByIdAndDelete(id);
+  if (!deletedNote) {
+    return res.status(404).json({ message: "Note not found" });
+  }
+  res.status(200).json({ message: "Note deleted successfully" });
 });
 
 module.exports = router;
